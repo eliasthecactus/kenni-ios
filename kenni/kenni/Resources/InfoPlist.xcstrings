@@ -1,0 +1,64 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "kenni"
+          }
+        }
+      }
+    },
+    "NSCameraUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KENNI nutzt die Kamera, um Kontakt-QR-Codes zu scannen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KENNI uses the camera to scan contact QR codes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KENNI usa la cámara para escanear códigos QR de contactos."
+          }
+        }
+      }
+    },
+    "NSFaceIDUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KENNI nutzt Face ID, um deine Identität zu schützen und zu bestätigen, dass wirklich du es bist."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KENNI uses Face ID to protect your identity and to confirm that it is really you."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KENNI usa Face ID para proteger tu identidad y confirmar que eres realmente tú."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

@@ -1,0 +1,101 @@
+import Foundation
+import CryptoKit
+
+enum APIError: Error {
+    case badURL
+    case http(Int, String)
+    case decoding
+}
+
+/// Talks to kenni-api with proof-of-key request signing:
+/// "kenni/v1/api\n{METHOD}\n{path}\n{timestamp}\n{body}" signed with the identity key.
+struct APIClient {
+    let identity: KenniIdentity
+
+    static var baseURL: URL {
+        #if DEBUG
+        if let override = UserDefaults.standard.string(forKey: "kenni.apiBaseURL"),
+           let url = URL(string: override) {
+            return url
+        }
+        #endif
+        return URL(string: "https://kenniapi.benavo.ch")!
+    }
+
+    struct VerifyStatus: Codable {
+        let requestID: String
+        let status: String // pending | answered | expired
+        let requestPayload: String
+        let responsePayload: String?
+    }
+
+    // MARK: Endpoints
+    //
+    // The app talks to the API for exactly two things: registering this device's
+    // APNs token, and relaying live-check requests/answers (the payloads are
+    // opaque signed envelopes). Contact exchange is fully offline (kenni:// links).
+
+    func registerDevice(apnsToken: String) async throws {
+        _ = try await send("POST", "/v1/devices", body: ["apnsToken": apnsToken])
+    }
+
+    func sendVerifyRequest(_ envelope: VerifyRequestEnvelope) async throws {
+        _ = try await send("POST", "/v1/verify/requests", body: [
+            "requestID": envelope.reqID,
+            "to": envelope.to.base64URLEncodedString(),
+            "payload": envelope.payloadString,
+        ])
+    }
+
+    func respond(reqID: String, payload: String) async throws {
+        _ = try await send("POST", "/v1/verify/requests/\(reqID)/response",
+                           body: ["payload": payload])
+    }
+
+    func status(reqID: String) async throws -> VerifyStatus {
+        try await decode(try await send("GET", "/v1/verify/requests/\(reqID)", body: nil))
+    }
+
+    // MARK: Plumbing
+
+    private func send(_ method: String, _ path: String,
+                      body: [String: String]?) async throws -> Data {
+        let bodyData: Data
+        if let body {
+            bodyData = try JSONEncoder().encode(body)
+        } else {
+            bodyData = Data()
+        }
+        var request = URLRequest(url: Self.baseURL.appending(path: path))
+        request.httpMethod = method
+        if body != nil {
+            request.httpBody = bodyData
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+
+        let timestamp = String(Int(Date().timeIntervalSince1970))
+        let message = Data("kenni/v1/api\n\(method)\n\(path)\n\(timestamp)\n\(String(decoding: bodyData, as: UTF8.self))".utf8)
+        let signature = try identity.signingKey.signature(for: message)
+        request.setValue(identity.idString, forHTTPHeaderField: "X-Kenni-Id")
+        request.setValue(timestamp, forHTTPHeaderField: "X-Kenni-Timestamp")
+        request.setValue(signature.base64URLEncodedString(), forHTTPHeaderField: "X-Kenni-Signature")
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+        try Self.check(response, data: data)
+        return data
+    }
+
+    private static func check(_ response: URLResponse, data: Data) throws {
+        guard let http = response as? HTTPURLResponse else { throw APIError.badURL }
+        guard (200..<300).contains(http.statusCode) else {
+            throw APIError.http(http.statusCode, String(decoding: data, as: UTF8.self))
+        }
+    }
+
+    private func decode<T: Decodable>(_ data: Data) throws -> T {
+        guard let value = try? JSONDecoder().decode(T.self, from: data) else {
+            throw APIError.decoding
+        }
+        return value
+    }
+}
