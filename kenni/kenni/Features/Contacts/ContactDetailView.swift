@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import UIKit
+import PhotosUI
 
 struct ContactDetailView: View {
     @Bindable var contact: Contact
@@ -13,6 +14,7 @@ struct ContactDetailView: View {
     @State private var showLiveCheck = false
     @State private var showOfflineCodes = false
     @State private var confirmDelete = false
+    @State private var photoItem: PhotosPickerItem?
 
     private var history: [VerificationRecord] {
         records
@@ -57,26 +59,90 @@ struct ContactDetailView: View {
     private var header: some View {
         GradientBorderCard {
             VStack(spacing: 12) {
-                if let data = contact.avatarData, let image = UIImage(data: data) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 72, height: 72)
-                        .clipShape(Circle())
-                } else {
-                    Text(contact.initials)
-                        .font(.title.bold())
-                        .frame(width: 72, height: 72)
-                        .background(Color.kenniBackground, in: Circle())
-                        .overlay(Circle().strokeBorder(KenniGradient.cool.opacity(0.7),
-                                                       lineWidth: 2))
+                // A photo you add yourself, stored only on this device, to
+                // recognise the contact at a glance. Tap to choose, long-press
+                // to remove.
+                PhotosPicker(selection: $photoItem, matching: .images) {
+                    contactAvatar
+                        .overlay(alignment: .bottomTrailing) {
+                            Image(systemName: "camera.circle.fill")
+                                .font(.title3)
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.white, Color.kenniCyan)
+                        }
+                }
+                .buttonStyle(.plain)
+                .contextMenu {
+                    if contact.avatarData != nil {
+                        Button(role: .destructive) {
+                            contact.avatarData = nil
+                            try? modelContext.save()
+                        } label: {
+                            Label(L("Remove photo"), systemImage: "trash")
+                        }
+                    }
+                }
+                .onChange(of: photoItem) { _, item in
+                    Task {
+                        if let data = try? await item?.loadTransferable(type: Data.self) {
+                            contact.avatarData = Self.downscaled(data)
+                            try? modelContext.save()
+                        }
+                    }
                 }
                 Text(contact.name)
                     .font(.title3.bold())
                 TrustBadge(level: contact.trustLevel)
+                if contact.trustLevel != .verified {
+                    Text(L("Only an in-person check marks this contact as Verified."))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                    Button {
+                        showVerifyInPerson = true
+                    } label: {
+                        Label(L("Verify in person"), systemImage: "person.badge.shield.checkmark")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 18)
+                            .padding(.vertical, 10)
+                            .background(KenniGradient.cool, in: Capsule())
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.top, 2)
+                }
                 FingerprintBadge(fingerprint: contact.fingerprint)
             }
         }
+    }
+
+    @ViewBuilder private var contactAvatar: some View {
+        if let data = contact.avatarData, let image = UIImage(data: data) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 72, height: 72)
+                .clipShape(Circle())
+        } else {
+            Text(contact.initials)
+                .font(.title.bold())
+                .frame(width: 72, height: 72)
+                .background(Color.kenniBackground, in: Circle())
+                .overlay(Circle().strokeBorder(KenniGradient.cool.opacity(0.7),
+                                               lineWidth: 2))
+        }
+    }
+
+    /// Contact photos live in the local SwiftData store — shrink to a thumbnail
+    /// so a full-res pick doesn't bloat the database.
+    private static func downscaled(_ data: Data, maxEdge: CGFloat = 256) -> Data {
+        guard let image = UIImage(data: data) else { return data }
+        let longest = max(image.size.width, image.size.height)
+        let scale = min(1, maxEdge / longest)
+        let size = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+        let renderer = UIGraphicsImageRenderer(size: size)
+        let resized = renderer.image { _ in image.draw(in: CGRect(origin: .zero, size: size)) }
+        return resized.jpegData(compressionQuality: 0.8) ?? data
     }
 
     private var actions: some View {
@@ -91,12 +157,8 @@ struct ContactDetailView: View {
                       title: L("Offline codes"),
                       subtitle: L("Spoken codes, no internet needed."),
                       enabled: true) { showOfflineCodes = true }
-            ActionRow(icon: "person.badge.shield.checkmark", tint: KenniGradient.cool,
-                      title: L("Verify in person"),
-                      subtitle: contact.trustLevel == .verified
-                          ? L("Verified — you can re-check anytime.")
-                          : L("Together right now? Upgrade to a verified contact."),
-                      enabled: true) { showVerifyInPerson = true }
+            // "Verify in person" lives in the header now, shown only while the
+            // contact isn't verified yet — once verified it's not needed again.
         }
     }
 
@@ -193,6 +255,10 @@ private struct ActionRow: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
+                // Text inside a Button defaults to centered multiline alignment;
+                // force leading so wrapped subtitles line up under the title.
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer()
                 if enabled {
                     Image(systemName: "chevron.right")

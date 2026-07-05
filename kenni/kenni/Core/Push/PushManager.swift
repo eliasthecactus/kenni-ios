@@ -4,6 +4,25 @@ import UserNotifications
 import Observation
 import os
 
+/// Client-side push diagnostics, persisted so the hidden Settings debug screen
+/// can read them. Everything here is this device's own data (its APNs token and
+/// last registration result) — nothing that comes from the server.
+enum PushDebug {
+    private static let tokenKey = "kenni.debug.apnsToken"
+    private static let statusKey = "kenni.debug.registration"
+
+    static var token: String? { UserDefaults.standard.string(forKey: tokenKey) }
+    static var status: String? { UserDefaults.standard.string(forKey: statusKey) }
+
+    static func setToken(_ token: String) {
+        UserDefaults.standard.set(token, forKey: tokenKey)
+    }
+    static func setStatus(_ status: String) {
+        UserDefaults.standard.set("\(status) — \(Date().formatted(date: .abbreviated, time: .shortened))",
+                                  forKey: statusKey)
+    }
+}
+
 /// App-wide navigation triggers coming from outside SwiftUI (pushes, links).
 @Observable
 final class AppRouter {
@@ -33,7 +52,9 @@ final class PushManager: NSObject, UIApplicationDelegate, UNUserNotificationCent
 
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        pendingToken = deviceToken.map { String(format: "%02x", $0) }.joined()
+        let token = deviceToken.map { String(format: "%02x", $0) }.joined()
+        pendingToken = token
+        PushDebug.setToken(token)
         registerPendingTokenIfPossible()
     }
 
@@ -42,9 +63,11 @@ final class PushManager: NSObject, UIApplicationDelegate, UNUserNotificationCent
         Task {
             do {
                 try await APIClient(identity: identity).registerDevice(apnsToken: token)
+                PushDebug.setStatus("Registered ✓")
                 Logger(subsystem: "ch.benavo.kenni", category: "push")
                     .info("device token registered with relay")
             } catch {
+                PushDebug.setStatus("Failed: \(error.localizedDescription)")
                 Logger(subsystem: "ch.benavo.kenni", category: "push")
                     .error("device registration failed: \(error)")
             }

@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import LocalAuthentication
+import UIKit
 
 struct SettingsView: View {
     @Environment(IdentityStore.self) private var identityStore
@@ -13,6 +14,8 @@ struct SettingsView: View {
     @State private var lockMethod: AppLockManager.Method?
     @State private var showSetPIN = false
     @State private var lockError: String?
+    @State private var versionTaps = 0
+    @State private var debugUnlocked = false
 
     private let benavoURL = URL(string: "https://benavo.ch")!
     private let featureRequestURL = URL(string: "mailto:kenni@benavo.ch?subject=KENNI%20feature%20request")!
@@ -127,7 +130,7 @@ struct SettingsView: View {
             NavigationLink {
                 EditProfileView()
             } label: {
-                Label(L("Name & photo"), systemImage: "person.crop.circle")
+                Label(L("Your name"), systemImage: "person.crop.circle")
             }
             LabeledContent(L("Fingerprint"),
                            value: identityStore.identity?.fingerprint ?? "—")
@@ -211,9 +214,28 @@ struct SettingsView: View {
         Section(L("About")) {
             LabeledContent(L("Version"),
                            value: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0")
+                .contentShape(Rectangle())
+                .onTapGesture { revealDebugIfTappedEnough() }
             Link(destination: URL(string: "https://benavo.ch/apps/kenni")!) {
                 Label(L("Privacy & how it works"), systemImage: "hand.raised")
             }
+            if debugUnlocked {
+                NavigationLink {
+                    DebugInfoView()
+                } label: {
+                    Label("Debug info", systemImage: "ladybug")
+                }
+            }
+        }
+    }
+
+    /// Seven taps on the Version row reveals the hidden diagnostics link.
+    private func revealDebugIfTappedEnough() {
+        guard !debugUnlocked else { return }
+        versionTaps += 1
+        if versionTaps >= 7 {
+            debugUnlocked = true
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
         }
     }
 

@@ -5,12 +5,10 @@ import SwiftData
 @Model
 final class UserProfile {
     var name: String
-    var avatarData: Data?
     var createdAt: Date
 
-    init(name: String, avatarData: Data? = nil, createdAt: Date = .now) {
+    init(name: String, createdAt: Date = .now) {
         self.name = name
-        self.avatarData = avatarData
         self.createdAt = createdAt
     }
 }

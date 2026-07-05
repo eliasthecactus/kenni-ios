@@ -64,17 +64,9 @@ struct HomeView: View {
     private var identityCard: some View {
         GradientBorderCard {
             HStack(spacing: 14) {
-                if let data = profile?.avatarData, let image = UIImage(data: data) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 56, height: 56)
-                        .clipShape(Circle())
-                } else {
-                    Image(systemName: "person.crop.circle.fill")
-                        .font(.system(size: 48))
-                        .foregroundStyle(.secondary)
-                }
+                Image(systemName: "person.crop.circle.fill")
+                    .font(.system(size: 48))
+                    .foregroundStyle(.secondary)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(profile?.name ?? "")
                         .font(.headline)

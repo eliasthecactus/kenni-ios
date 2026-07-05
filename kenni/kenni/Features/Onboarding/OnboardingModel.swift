@@ -25,7 +25,6 @@ final class OnboardingModel {
     var iCloudBackup = true
     var isRestore = false
     var name = ""
-    var avatarData: Data?
 
     func startNew() {
         guard let identity = try? KenniIdentity.generate() else { return }

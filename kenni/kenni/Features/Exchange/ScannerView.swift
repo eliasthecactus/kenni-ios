@@ -10,6 +10,7 @@ struct ScannerView: View {
     let onCode: (String) -> Void
 
     @State private var manualCode = ""
+    @State private var showManual = false
 
     private var scannerAvailable: Bool {
         DataScannerViewController.isSupported && DataScannerViewController.isAvailable
@@ -22,41 +23,58 @@ struct ScannerView: View {
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 
-            if scannerAvailable {
+            // Camera when we have one and the user hasn't switched to typing;
+            // otherwise the paste field. On camera devices both are reachable so
+            // codes shared over the phone or as a link can still be entered.
+            if scannerAvailable && !showManual {
                 DataScannerRepresentable(onCode: onCode)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .overlay(
                         RoundedRectangle(cornerRadius: 20, style: .continuous)
                             .strokeBorder(KenniGradient.cool.opacity(0.7), lineWidth: 2))
                     .frame(maxHeight: 340)
+                Button(L("Enter a code or link instead")) { showManual = true }
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(Color.kenniCyan)
             } else {
-                VStack(spacing: 10) {
-                    Image(systemName: "camera.on.rectangle")
-                        .font(.system(size: 36))
-                        .foregroundStyle(.secondary)
-                    Text(L("No camera here. Ask them to tap \"Copy my code\" or \"Share my link\" on their My code screen, then paste it here."))
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                    TextField(L("KENNI code or link"), text: $manualCode, axis: .vertical)
-                        .font(.system(.footnote, design: .monospaced))
-                        .lineLimit(3)
-                        .padding(10)
-                        .background(Color.kenniBackground.opacity(0.6),
-                                    in: RoundedRectangle(cornerRadius: 10))
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
-                    Button(L("Use code")) {
-                        onCode(manualCode.trimmingCharacters(in: .whitespacesAndNewlines))
-                    }
-                    .buttonStyle(KenniSecondaryButtonStyle())
-                    .disabled(manualCode.isEmpty)
+                manualEntry
+                if scannerAvailable {
+                    Button(L("Scan with the camera instead")) { showManual = false }
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(Color.kenniCyan)
                 }
-                .padding(16)
-                .frame(maxWidth: .infinity)
-                .background(Color.kenniCard, in: RoundedRectangle(cornerRadius: 20))
             }
         }
+    }
+
+    private var manualEntry: some View {
+        VStack(spacing: 10) {
+            Image(systemName: "keyboard")
+                .font(.system(size: 36))
+                .foregroundStyle(.secondary)
+            Text(scannerAvailable
+                 ? L("Paste the code from \"Copy my code\" or the link from \"Share my link\" on their My code screen.")
+                 : L("No camera here. Ask them to tap \"Copy my code\" or \"Share my link\" on their My code screen, then paste it here."))
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+            TextField(L("KENNI code or link"), text: $manualCode, axis: .vertical)
+                .font(.system(.footnote, design: .monospaced))
+                .lineLimit(3)
+                .padding(10)
+                .background(Color.kenniBackground.opacity(0.6),
+                            in: RoundedRectangle(cornerRadius: 10))
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+            Button(L("Use code")) {
+                onCode(manualCode.trimmingCharacters(in: .whitespacesAndNewlines))
+            }
+            .buttonStyle(KenniSecondaryButtonStyle())
+            .disabled(manualCode.isEmpty)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity)
+        .background(Color.kenniCard, in: RoundedRectangle(cornerRadius: 20))
     }
 }
 

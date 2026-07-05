@@ -1,5 +1,4 @@
 import SwiftUI
-import PhotosUI
 import UserNotifications
 import SwiftData
 import LocalAuthentication
@@ -88,7 +87,6 @@ struct LockSetupView: View {
 
 struct ProfileSetupView: View {
     @Environment(OnboardingModel.self) private var model
-    @State private var photoItem: PhotosPickerItem?
 
     var body: some View {
         @Bindable var model = model
@@ -96,32 +94,7 @@ struct ProfileSetupView: View {
             OnboardingHeader(
                 systemImage: "person.crop.circle.fill",
                 title: L("Who are you?"),
-                subtitle: L("Your name and photo are only shared with people you exchange keys with — never with a server."))
-
-            PhotosPicker(selection: $photoItem, matching: .images) {
-                ZStack {
-                    if let data = model.avatarData, let image = UIImage(data: data) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                    } else {
-                        Image(systemName: "camera.fill")
-                            .font(.title2)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .frame(width: 110, height: 110)
-                .background(Color.kenniCard)
-                .clipShape(Circle())
-                .overlay(Circle().strokeBorder(KenniGradient.primary.opacity(0.7), lineWidth: 2))
-            }
-            .onChange(of: photoItem) { _, item in
-                Task {
-                    if let data = try? await item?.loadTransferable(type: Data.self) {
-                        model.avatarData = data
-                    }
-                }
-            }
+                subtitle: L("Your name is only shared with people you exchange keys with — never with a server."))
 
             TextField(L("Your name"), text: $model.name)
                 .font(.title3)
@@ -265,9 +238,8 @@ struct DoneView: View {
             // Upsert: a soft reset can leave an old profile behind.
             if let existing = try modelContext.fetch(FetchDescriptor<UserProfile>()).first {
                 existing.name = trimmed
-                existing.avatarData = model.avatarData
             } else {
-                modelContext.insert(UserProfile(name: trimmed, avatarData: model.avatarData))
+                modelContext.insert(UserProfile(name: trimmed))
             }
             try modelContext.save()
             // Freshly onboarded — don't slam the lock screen in their face.

@@ -14,12 +14,17 @@ struct APIClient {
 
     static var baseURL: URL {
         #if DEBUG
+        // Dev/simulator builds hit the dev relay by default; set the
+        // "kenni.apiBaseURL" override (e.g. http://127.0.0.1:8080) to point at a
+        // local server instead. Release builds always use production.
         if let override = UserDefaults.standard.string(forKey: "kenni.apiBaseURL"),
            let url = URL(string: override) {
             return url
         }
-        #endif
+        return URL(string: "https://kenniapi-dev.benavo.ch")!
+        #else
         return URL(string: "https://kenniapi.benavo.ch")!
+        #endif
     }
 
     struct VerifyStatus: Codable {
