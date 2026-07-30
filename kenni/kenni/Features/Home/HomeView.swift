@@ -104,10 +104,10 @@ struct HomeView: View {
                     .frame(width: 44, height: 44)
                     .background(Color.kenniBackground, in: RoundedRectangle(cornerRadius: 13))
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(L("Identify a business"))
+                    Text(L("Verify a business"))
                         .font(.headline)
                         .foregroundStyle(.primary)
-                    Text(L("View an approved business profile with its PIN."))
+                    Text(L("Confirm an approved representative with a live QR check."))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.leading)

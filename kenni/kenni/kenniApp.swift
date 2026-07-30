@@ -7,6 +7,7 @@ struct kenniApp: App {
     @UIApplicationDelegateAdaptor(PushManager.self) private var pushManager
     @State private var identityStore: IdentityStore
     @State private var appLock: AppLockManager
+    @State private var businessStore = BusinessCredentialStore()
     @State private var router = AppRouter()
     @State private var network = NetworkMonitor()
 
@@ -43,6 +44,7 @@ struct kenniApp: App {
             RootView()
                 .environment(identityStore)
                 .environment(appLock)
+                .environment(businessStore)
                 .environment(router)
                 .environment(network)
                 .environment(LanguageStore.shared)
@@ -52,6 +54,12 @@ struct kenniApp: App {
                     pushManager.identityProvider = { [weak identityStore] in
                         identityStore?.identity
                     }
+                    pushManager.businessProvider = { [weak businessStore] in
+                        businessStore?.installation
+                    }
+                }
+                .onChange(of: businessStore.installation) {
+                    pushManager.registerPendingTokenIfPossible()
                 }
         }
         .modelContainer(sharedModelContainer)
@@ -61,6 +69,7 @@ struct kenniApp: App {
 struct RootView: View {
     @Environment(IdentityStore.self) private var identityStore
     @Environment(AppRouter.self) private var router
+    @Environment(BusinessCredentialStore.self) private var businessStore
 
     var body: some View {
         @Bindable var router = router
@@ -76,6 +85,10 @@ struct RootView: View {
             #endif
         }
         .onOpenURL { url in
+            if let enrollment = BusinessEnrollmentLink(url: url) {
+                router.businessEnrollmentLink = enrollment
+                return
+            }
             // kenni://x?b=<bundle> — the identity card is embedded in the link and
             // opens the app directly (no server, no website).
             if let param = Self.exchangeBundleParam(from: url) {
@@ -89,11 +102,28 @@ struct RootView: View {
         .sheet(item: $router.incomingBundleParam) { param in
             AddFromLinkView(bundleParam: param)
         }
+        .sheet(item: $router.businessEnrollmentLink) { link in
+            BusinessEnrollmentView(link: link)
+                .interactiveDismissDisabled()
+        }
+        .onChange(of: router.businessRevoked) { _, revoked in
+            guard revoked else { return }
+            router.businessRevoked = false
+            Task { await businessStore.handleRevocationPush() }
+        }
     }
 
     @ViewBuilder
     private var mainContent: some View {
         Group {
+            if businessStore.installation != nil {
+                AppLockGate {
+                    BusinessHomeView()
+                }
+                .task {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            } else
             if identityStore.isOnboarded, identityStore.identity != nil {
                 AppLockGate {
                     HomeView()

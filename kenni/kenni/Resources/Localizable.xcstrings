@@ -3921,23 +3921,6 @@
         }
       }
     },
-    "6-digit PIN" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "6-stellige PIN"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PIN de 6 dígitos"
-          }
-        }
-      }
-    },
     "Address" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3955,227 +3938,6 @@
         }
       }
     },
-    "Approved business" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestätigtes Unternehmen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Empresa aprobada"
-          }
-        }
-      }
-    },
-    "Business identification is unavailable right now." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Unternehmensidentifikation ist derzeit nicht verfügbar."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La identificación de empresas no está disponible en este momento."
-          }
-        }
-      }
-    },
-    "Business PIN" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unternehmens-PIN"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PIN de la empresa"
-          }
-        }
-      }
-    },
-    "Enter the six-digit PIN shared by the business to see its verified profile." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gib die sechsstellige PIN ein, die dir das Unternehmen mitgeteilt hat, um sein bestätigtes Profil anzuzeigen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Introduce el PIN de seis dígitos facilitado por la empresa para ver su perfil verificado."
-          }
-        }
-      }
-    },
-    "Identify a business" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unternehmen identifizieren"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Identificar una empresa"
-          }
-        }
-      }
-    },
-    "Identify an approved business" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestätigtes Unternehmen identifizieren"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Identificar una empresa aprobada"
-          }
-        }
-      }
-    },
-    "Identify another business" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Weiteres Unternehmen identifizieren"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Identificar otra empresa"
-          }
-        }
-      }
-    },
-    "Identify business" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unternehmen identifizieren"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Identificar empresa"
-          }
-        }
-      }
-    },
-    "No approved business matches this PIN." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kein bestätigtes Unternehmen stimmt mit dieser PIN überein."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ninguna empresa aprobada coincide con este PIN."
-          }
-        }
-      }
-    },
-    "Only businesses added by KENNI administrators can be identified." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nur Unternehmen, die von KENNI-Administratoren hinzugefügt wurden, können identifiziert werden."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo se pueden identificar las empresas añadidas por administradores de KENNI."
-          }
-        }
-      }
-    },
-    "This profile was approved by KENNI and revealed with the business's private PIN." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieses Profil wurde von KENNI bestätigt und mit der privaten PIN des Unternehmens angezeigt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Este perfil ha sido aprobado por KENNI y se ha mostrado con el PIN privado de la empresa."
-          }
-        }
-      }
-    },
-    "Too many attempts. Please wait a minute and try again." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zu viele Versuche. Warte bitte eine Minute und versuche es erneut."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Demasiados intentos. Espera un minuto y vuelve a intentarlo."
-          }
-        }
-      }
-    },
-    "View an approved business profile with its PIN." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeige das Profil eines bestätigten Unternehmens mit seiner PIN an."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Consulta el perfil de una empresa aprobada con su PIN."
-          }
-        }
-      }
-    },
     "Website" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4189,6 +3951,907 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sitio web"
+          }
+        }
+      }
+    },
+    "Active business device" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktives Unternehmensgerät"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dispositivo empresarial activo"
+          }
+        }
+      }
+    },
+    "Business mode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmensmodus"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo empresa"
+          }
+        }
+      }
+    },
+    "Business setup" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmenseinrichtung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración de empresa"
+          }
+        }
+      }
+    },
+    "Business verification failed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmensprüfung fehlgeschlagen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La verificación de la empresa ha fallado"
+          }
+        }
+      }
+    },
+    "Checking the business device…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmensgerät wird geprüft…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprobando el dispositivo empresarial…"
+          }
+        }
+      }
+    },
+    "Confirm an approved representative with a live QR check." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestätige eine autorisierte Vertretung mit einer Live-QR-Prüfung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirma a un representante autorizado con una comprobación QR en directo."
+          }
+        }
+      }
+    },
+    "Confirm business" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmen bestätigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmar empresa"
+          }
+        }
+      }
+    },
+    "Confirm for a customer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für einen Kunden bestätigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmar para un cliente"
+          }
+        }
+      }
+    },
+    "Confirm that you represent the business" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestätige, dass du das Unternehmen vertrittst"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirma que representas a la empresa"
+          }
+        }
+      }
+    },
+    "Continue with business setup" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit der Unternehmenseinrichtung fortfahren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar con la configuración de empresa"
+          }
+        }
+      }
+    },
+    "Could not create a confirmation. Check your connection." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestätigung konnte nicht erstellt werden. Prüfe deine Verbindung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido crear una confirmación. Comprueba tu conexión."
+          }
+        }
+      }
+    },
+    "Enroll this device" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Gerät registrieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar este dispositivo"
+          }
+        }
+      }
+    },
+    "Enrollment failed. Check your connection and try again." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrierung fehlgeschlagen. Prüfe deine Verbindung und versuche es erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El registro ha fallado. Comprueba tu conexión e inténtalo de nuevo."
+          }
+        }
+      }
+    },
+    "Enrollment links work once and expire after seven days." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrierungslinks sind einmal gültig und laufen nach sieben Tagen ab."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los enlaces de registro solo funcionan una vez y caducan a los siete días."
+          }
+        }
+      }
+    },
+    "Expires in 90 seconds" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Läuft in 90 Sekunden ab"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caduca en 90 segundos"
+          }
+        }
+      }
+    },
+    "Fresh one-time challenge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neue einmalige Challenge"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuevo reto de un solo uso"
+          }
+        }
+      }
+    },
+    "It can no longer create confirmations for %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es kann keine Bestätigungen mehr für %@ erstellen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya no puede crear confirmaciones para %@."
+          }
+        }
+      }
+    },
+    "KENNI checked that the responding device is enrolled for this approved business and has not been revoked." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KENNI hat geprüft, dass das antwortende Gerät für dieses zugelassene Unternehmen registriert und nicht widerrufen ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KENNI ha comprobado que el dispositivo que responde está registrado para esta empresa autorizada y no ha sido revocado."
+          }
+        }
+      }
+    },
+    "Let the customer scan this one-time response." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass den Kunden diese einmalige Antwort scannen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deja que el cliente escanee esta respuesta de un solo uso."
+          }
+        }
+      }
+    },
+    "Let the representative scan this fresh challenge with their enrolled KENNI business device." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass die Vertretung diese neue Challenge mit ihrem registrierten KENNI-Unternehmensgerät scannen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deja que el representante escanee este nuevo reto con su dispositivo empresarial KENNI registrado."
+          }
+        }
+      }
+    },
+    "Log out" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abmelden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar sesión"
+          }
+        }
+      }
+    },
+    "Log out business device" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmensgerät abmelden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar sesión en el dispositivo empresarial"
+          }
+        }
+      }
+    },
+    "Log out this business device?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Unternehmensgerät abmelden?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cerrar sesión en este dispositivo empresarial?"
+          }
+        }
+      }
+    },
+    "Or paste the enrollment link" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oder Registrierungslink einfügen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O pega el enlace de registro"
+          }
+        }
+      }
+    },
+    "Ready to confirm your business" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bereit, dein Unternehmen zu bestätigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo listo para confirmar tu empresa"
+          }
+        }
+      }
+    },
+    "Revoked %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ widerrufen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ revocado"
+          }
+        }
+      }
+    },
+    "Scan a customer's fresh KENNI challenge. The API checks that this device is still active before issuing a one-time response." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanne die neue KENNI-Challenge eines Kunden. Die API prüft, ob dieses Gerät noch aktiv ist, bevor sie eine einmalige Antwort ausstellt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanea un nuevo reto KENNI de un cliente. La API comprueba que este dispositivo sigue activo antes de emitir una respuesta de un solo uso."
+          }
+        }
+      }
+    },
+    "Scan business response" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmensantwort scannen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanear respuesta de la empresa"
+          }
+        }
+      }
+    },
+    "Scan enrollment QR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrierungs-QR scannen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanear QR de registro"
+          }
+        }
+      }
+    },
+    "Scan the customer's business challenge." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanne die Unternehmens-Challenge des Kunden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanea el reto empresarial del cliente."
+          }
+        }
+      }
+    },
+    "Scan the enrollment QR from your administrator." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanne den Registrierungs-QR deines Administrators."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanea el QR de registro de tu administrador."
+          }
+        }
+      }
+    },
+    "Scan the one-time QR created by your KENNI administrator. This device will receive its own revocable business credential." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanne den einmaligen QR-Code, den dein KENNI-Administrator erstellt hat. Dieses Gerät erhält einen eigenen widerrufbaren Unternehmensnachweis."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanea el QR de un solo uso creado por tu administrador de KENNI. Este dispositivo recibirá su propia credencial empresarial revocable."
+          }
+        }
+      }
+    },
+    "Scan the one-time response on the business device." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanne die einmalige Antwort auf dem Unternehmensgerät."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escanea la respuesta de un solo uso en el dispositivo empresarial."
+          }
+        }
+      }
+    },
+    "Set up a business device" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmensgerät einrichten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurar un dispositivo empresarial"
+          }
+        }
+      }
+    },
+    "Set up this device for a business?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Gerät für ein Unternehmen einrichten?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Configurar este dispositivo para una empresa?"
+          }
+        }
+      }
+    },
+    "That is not a valid KENNI business challenge." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das ist keine gültige KENNI-Unternehmens-Challenge."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No es un reto empresarial de KENNI válido."
+          }
+        }
+      }
+    },
+    "That is not a valid KENNI business enrollment QR." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das ist kein gültiger KENNI-QR-Code zur Unternehmensregistrierung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No es un QR de registro empresarial de KENNI válido."
+          }
+        }
+      }
+    },
+    "That is not a valid KENNI business enrollment link." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das ist kein gültiger KENNI-Link zur Unternehmensregistrierung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No es un enlace de registro empresarial de KENNI válido."
+          }
+        }
+      }
+    },
+    "The device credential will be deleted. A new admin invitation is required to enroll it again." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Gerätenachweis wird gelöscht. Für die erneute Registrierung ist eine neue Einladung eines Administrators erforderlich."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se eliminará la credencial del dispositivo. Para volver a registrarlo, necesitarás una nueva invitación de un administrador."
+          }
+        }
+      }
+    },
+    "The response could not be checked. Make sure you are online and try again." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort konnte nicht geprüft werden. Stelle sicher, dass du online bist, und versuche es erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido comprobar la respuesta. Asegúrate de tener conexión e inténtalo de nuevo."
+          }
+        }
+      }
+    },
+    "The response expired, was already used, or came from a revoked device." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort ist abgelaufen, wurde bereits verwendet oder stammt von einem widerrufenen Gerät."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La respuesta ha caducado, ya se ha utilizado o procede de un dispositivo revocado."
+          }
+        }
+      }
+    },
+    "The response works only for this screen and expires after 90 seconds." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort gilt nur für diesen Bildschirm und läuft nach 90 Sekunden ab."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La respuesta solo funciona en esta pantalla y caduca a los 90 segundos."
+          }
+        }
+      }
+    },
+    "This business device has been revoked." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Unternehmensgerät wurde widerrufen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este dispositivo empresarial ha sido revocado."
+          }
+        }
+      }
+    },
+    "This business device is no longer active." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Unternehmensgerät ist nicht mehr aktiv."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este dispositivo empresarial ya no está activo."
+          }
+        }
+      }
+    },
+    "This business device was revoked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Unternehmensgerät wurde widerrufen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este dispositivo empresarial fue revocado"
+          }
+        }
+      }
+    },
+    "This enrollment link has expired or was already used." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Registrierungslink ist abgelaufen oder wurde bereits verwendet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este enlace de registro ha caducado o ya se ha utilizado."
+          }
+        }
+      }
+    },
+    "Try again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erneut versuchen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intentar de nuevo"
+          }
+        }
+      }
+    },
+    "Verified active business device" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktives Unternehmensgerät verifiziert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dispositivo empresarial activo verificado"
+          }
+        }
+      }
+    },
+    "Verified just now" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerade verifiziert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificado ahora mismo"
+          }
+        }
+      }
+    },
+    "Verify a business" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmen verifizieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificar una empresa"
+          }
+        }
+      }
+    },
+    "Verify an approved business" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zugelassenes Unternehmen verifizieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificar una empresa autorizada"
+          }
+        }
+      }
+    },
+    "Verify another business" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiteres Unternehmen verifizieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificar otra empresa"
+          }
+        }
+      }
+    },
+    "You will need the one-time QR or link created by a KENNI administrator." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du benötigst den einmaligen QR-Code oder Link, den ein KENNI-Administrator erstellt hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necesitarás el QR o enlace de un solo uso creado por un administrador de KENNI."
           }
         }
       }

@@ -2,35 +2,42 @@ import SwiftUI
 
 struct BusinessIdentificationView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var pin = ""
-    @State private var phase: Phase = .idle
-    @FocusState private var pinIsFocused: Bool
+    @State private var challenge = BusinessAPIClient.makeChallenge()
+    @State private var phase: Phase = .showingChallenge
 
     private enum Phase: Equatable {
-        case idle
-        case loading
-        case invalidPIN
-        case rateLimited
-        case unavailable
-        case identified(APIClient.Business)
+        case showingChallenge
+        case scanningResponse
+        case verifying
+        case verified(BusinessProfile)
+        case failed(String)
     }
 
     var body: some View {
         NavigationStack {
             Group {
-                if case .identified(let business) = phase {
-                    BusinessOverview(business: business) {
-                        pin = ""
-                        phase = .idle
-                        pinIsFocused = true
+                switch phase {
+                case .showingChallenge:
+                    challengeView
+                case .scanningResponse:
+                    ScannerView(prompt: L("Scan the one-time response on the business device.")) {
+                        verify(responseURL: $0)
                     }
-                } else {
-                    pinEntry
+                case .verifying:
+                    VStack(spacing: 18) {
+                        ProgressView()
+                        Text(L("Checking the business device…"))
+                            .foregroundStyle(.secondary)
+                    }
+                case .verified(let business):
+                    BusinessVerificationResult(business: business) { reset() }
+                case .failed(let message):
+                    failureView(message)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.kenniBackground)
-            .navigationTitle(L("Identify a business"))
+            .navigationTitle(L("Verify a business"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -41,129 +48,99 @@ struct BusinessIdentificationView: View {
         .tint(.kenniBlue)
     }
 
-    private var pinEntry: some View {
+    private var challengeView: some View {
         ScrollView {
             VStack(spacing: 24) {
                 OnboardingHeader(
                     systemImage: "building.2.crop.circle",
-                    title: L("Identify an approved business"),
-                    subtitle: L("Enter the six-digit PIN shared by the business to see its verified profile."),
+                    title: L("Verify an approved business"),
+                    subtitle: L("Let the representative scan this fresh challenge with their enrolled KENNI business device."),
                     gradient: KenniGradient.cool)
-                    .padding(.top, 34)
+                    .padding(.top, 24)
 
-                GradientBorderCard {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text(L("Business PIN"))
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                        TextField(L("6-digit PIN"), text: $pin)
-                            .font(.system(size: 30, weight: .bold, design: .monospaced))
-                            .multilineTextAlignment(.center)
-                            .keyboardType(.numberPad)
-                            .textContentType(.oneTimeCode)
-                            .focused($pinIsFocused)
-                            .onChange(of: pin) { _, value in
-                                pin = String(value.filter { $0.isASCII && $0.isNumber }.prefix(6))
-                                if isError { phase = .idle }
-                            }
-                            .onSubmit { identify() }
-                            .padding(.vertical, 8)
-                            .accessibilityLabel(L("Business PIN"))
-                    }
-                }
+                QRCodeView(content: BusinessChallengeLink(challenge: challenge).urlString)
+                    .frame(maxWidth: 280)
+                    .padding(12)
+                    .background(.white, in: RoundedRectangle(cornerRadius: 20))
 
-                if let errorMessage {
-                    Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
+                VStack(spacing: 8) {
+                    Label(L("Fresh one-time challenge"), systemImage: "timer")
+                        .font(.subheadline.weight(.semibold))
+                    Text(L("The response works only for this screen and expires after 90 seconds."))
                         .font(.footnote)
-                        .foregroundStyle(Color.kenniAmber)
+                        .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                 }
 
-                Button(action: identify) {
-                    if phase == .loading {
-                        ProgressView()
-                            .tint(.kenniInk)
-                    } else {
-                        Text(L("Identify business"))
-                    }
+                Button {
+                    phase = .scanningResponse
+                } label: {
+                    Label(L("Scan business response"), systemImage: "qrcode.viewfinder")
                 }
-                .buttonStyle(KenniPrimaryButtonStyle(isEnabled: canSubmit))
-                .disabled(!canSubmit)
-
-                Label(L("Only businesses added by KENNI administrators can be identified."),
-                      systemImage: "checkmark.shield.fill")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 12)
+                .buttonStyle(KenniPrimaryButtonStyle())
             }
             .padding(24)
         }
-        .scrollDismissesKeyboard(.interactively)
-        .onAppear { pinIsFocused = true }
     }
 
-    private var canSubmit: Bool {
-        pin.count == 6 && phase != .loading
-    }
-
-    private var isError: Bool {
-        switch phase {
-        case .invalidPIN, .rateLimited, .unavailable: true
-        default: false
+    private func failureView(_ message: String) -> some View {
+        VStack(spacing: 18) {
+            Spacer()
+            Image(systemName: "xmark.shield.fill")
+                .font(.system(size: 72, weight: .semibold))
+                .foregroundStyle(Color.kenniCoral)
+            Text(L("Business verification failed"))
+                .font(.title2.bold())
+                .multilineTextAlignment(.center)
+            Text(message)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+            Spacer()
+            Button(L("Try again")) { reset() }
+                .buttonStyle(KenniPrimaryButtonStyle())
         }
+        .padding(24)
     }
 
-    private var errorMessage: String? {
-        switch phase {
-        case .invalidPIN:
-            L("No approved business matches this PIN.")
-        case .rateLimited:
-            L("Too many attempts. Please wait a minute and try again.")
-        case .unavailable:
-            L("Business identification is unavailable right now.")
-        default:
-            nil
-        }
-    }
-
-    private func identify() {
-        guard canSubmit else { return }
-        pinIsFocused = false
-        phase = .loading
-        let submittedPIN = pin
+    private func verify(responseURL: String) {
+        phase = .verifying
+        let expectedChallenge = challenge
         Task {
             do {
-                phase = .identified(try await APIClient.identifyBusiness(pin: submittedPIN))
-            } catch APIError.http(404, _) {
-                phase = .invalidPIN
-                pinIsFocused = true
-            } catch APIError.http(429, _) {
-                phase = .rateLimited
+                phase = .verified(try await BusinessAPIClient.verifyConfirmation(
+                    responseURL: responseURL, challenge: expectedChallenge))
+            } catch APIError.http(410, _) {
+                phase = .failed(L("The response expired, was already used, or came from a revoked device."))
             } catch {
-                phase = .unavailable
+                phase = .failed(L("The response could not be checked. Make sure you are online and try again."))
             }
         }
     }
+
+    private func reset() {
+        challenge = BusinessAPIClient.makeChallenge()
+        phase = .showingChallenge
+    }
 }
 
-private struct BusinessOverview: View {
-    let business: APIClient.Business
-    let identifyAnother: () -> Void
+private struct BusinessVerificationResult: View {
+    let business: BusinessProfile
+    let verifyAnother: () -> Void
 
     var body: some View {
         ScrollView {
             VStack(spacing: 22) {
-                logo
-                    .padding(.top, 28)
-
+                logo.padding(.top, 28)
                 VStack(spacing: 8) {
-                    Label(L("Approved business"), systemImage: "checkmark.seal.fill")
+                    Label(L("Verified active business device"),
+                          systemImage: "checkmark.seal.fill")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(KenniGradient.cool)
                     Text(business.name)
                         .font(.largeTitle.bold())
                         .multilineTextAlignment(.center)
+                    Text(L("Verified just now"))
+                        .foregroundStyle(.secondary)
                 }
 
                 GradientBorderCard {
@@ -174,19 +151,19 @@ private struct BusinessOverview: View {
                         if let websiteURL = business.websiteURL {
                             Divider()
                             detailRow(systemImage: "globe", title: L("Website")) {
-                                Link(websiteURL.host() ?? websiteURL.absoluteString,
+                                Link(websiteURL.host ?? websiteURL.absoluteString,
                                      destination: websiteURL)
                             }
                         }
                     }
                 }
 
-                Text(L("This profile was approved by KENNI and revealed with the business's private PIN."))
+                Text(L("KENNI checked that the responding device is enrolled for this approved business and has not been revoked."))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
 
-                Button(L("Identify another business"), action: identifyAnother)
+                Button(L("Verify another business"), action: verifyAnother)
                     .buttonStyle(KenniSecondaryButtonStyle())
             }
             .padding(24)
@@ -196,22 +173,19 @@ private struct BusinessOverview: View {
     @ViewBuilder
     private var logo: some View {
         AsyncImage(url: business.logoURL) { phase in
-            switch phase {
-            case .success(let image):
+            if case .success(let image) = phase {
                 image.resizable().scaledToFit()
-            default:
+            } else {
                 Image(systemName: "building.2.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .padding(24)
+                    .resizable().scaledToFit().padding(24)
                     .foregroundStyle(KenniGradient.cool)
             }
         }
         .frame(width: 112, height: 112)
-        .background(Color.kenniCard, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 26, style: .continuous)
-                .strokeBorder(KenniGradient.cool.opacity(0.6), lineWidth: 1.5))
+        .background(Color.kenniCard,
+                    in: RoundedRectangle(cornerRadius: 26, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 26, style: .continuous)
+            .strokeBorder(KenniGradient.cool.opacity(0.6), lineWidth: 1.5))
         .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
     }
 
@@ -219,16 +193,10 @@ private struct BusinessOverview: View {
                                           @ViewBuilder content: () -> Content) -> some View {
         HStack(alignment: .top, spacing: 14) {
             Image(systemName: systemImage)
-                .font(.title3)
-                .foregroundStyle(KenniGradient.brand)
-                .frame(width: 28)
+                .font(.title3).foregroundStyle(KenniGradient.brand).frame(width: 28)
             VStack(alignment: .leading, spacing: 5) {
-                Text(title)
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
-                content()
-                    .font(.body.weight(.medium))
-                    .foregroundStyle(.primary)
+                Text(title).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                content().font(.body.weight(.medium)).foregroundStyle(.primary)
             }
             Spacer(minLength: 0)
         }
