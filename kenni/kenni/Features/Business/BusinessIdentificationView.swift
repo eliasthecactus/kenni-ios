@@ -2,12 +2,12 @@ import SwiftUI
 
 struct BusinessIdentificationView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var challenge = BusinessAPIClient.makeChallenge()
-    @State private var phase: Phase = .showingChallenge
+    @State private var pin = ""
+    @State private var phase: Phase = .enteringPIN
+    @FocusState private var pinFocused: Bool
 
     private enum Phase: Equatable {
-        case showingChallenge
-        case scanningResponse
+        case enteringPIN
         case verifying
         case verified(BusinessProfile)
         case failed(String)
@@ -17,16 +17,12 @@ struct BusinessIdentificationView: View {
         NavigationStack {
             Group {
                 switch phase {
-                case .showingChallenge:
-                    challengeView
-                case .scanningResponse:
-                    ScannerView(prompt: L("Scan the one-time response on the business device.")) {
-                        verify(responseURL: $0)
-                    }
+                case .enteringPIN:
+                    pinEntryView
                 case .verifying:
                     VStack(spacing: 18) {
                         ProgressView()
-                        Text(L("Checking the business device…"))
+                        Text(L("Checking the business PIN…"))
                             .foregroundStyle(.secondary)
                     }
                 case .verified(let business):
@@ -48,39 +44,54 @@ struct BusinessIdentificationView: View {
         .tint(.kenniBlue)
     }
 
-    private var challengeView: some View {
+    private var pinEntryView: some View {
         ScrollView {
             VStack(spacing: 24) {
                 OnboardingHeader(
                     systemImage: "building.2.crop.circle",
                     title: L("Verify an approved business"),
-                    subtitle: L("Let the representative scan this fresh challenge with their enrolled KENNI business device."),
+                    subtitle: L("Ask the representative for their current one-time KENNI PIN, then enter it below."),
                     gradient: KenniGradient.cool)
                     .padding(.top, 24)
 
-                QRCodeView(content: BusinessChallengeLink(challenge: challenge).urlString)
-                    .frame(maxWidth: 280)
-                    .padding(12)
-                    .background(.white, in: RoundedRectangle(cornerRadius: 20))
-
-                VStack(spacing: 8) {
-                    Label(L("Fresh one-time challenge"), systemImage: "timer")
-                        .font(.subheadline.weight(.semibold))
-                    Text(L("The response works only for this screen and expires after 90 seconds."))
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                VStack(spacing: 10) {
+                    Text(L("Business PIN"))
+                        .font(.headline)
+                    TextField("", text: $pin,
+                              prompt: Text("000000").foregroundStyle(.tertiary))
+                        .keyboardType(.numberPad)
+                        .textContentType(.oneTimeCode)
+                        .font(.system(size: 42, weight: .bold, design: .monospaced))
+                        .tracking(8)
                         .multilineTextAlignment(.center)
+                        .focused($pinFocused)
+                        .accessibilityLabel(Text(L("6-digit PIN")))
+                        .padding(.vertical, 18)
+                        .background(Color.kenniCard,
+                                    in: RoundedRectangle(cornerRadius: 16))
+                        .overlay(RoundedRectangle(cornerRadius: 16)
+                            .strokeBorder(KenniGradient.cool.opacity(0.7), lineWidth: 1.5))
+                        .onChange(of: pin) { _, value in
+                            pin = String(value.filter { $0.isASCII && $0.isNumber }.prefix(6))
+                        }
                 }
 
                 Button {
-                    phase = .scanningResponse
+                    verify()
                 } label: {
-                    Label(L("Scan business response"), systemImage: "qrcode.viewfinder")
+                    Label(L("Verify business"), systemImage: "checkmark.shield.fill")
                 }
-                .buttonStyle(KenniPrimaryButtonStyle())
+                .buttonStyle(KenniPrimaryButtonStyle(isEnabled: pin.count == 6))
+                .disabled(pin.count != 6)
+
+                Text(L("PINs expire after 90 seconds and work only once. KENNI checks the issuing device's revocation status online."))
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
             }
             .padding(24)
         }
+        .onAppear { pinFocused = true }
     }
 
     private func failureView(_ message: String) -> some View {
@@ -102,24 +113,26 @@ struct BusinessIdentificationView: View {
         .padding(24)
     }
 
-    private func verify(responseURL: String) {
+    private func verify() {
+        guard pin.count == 6 else { return }
+        let submittedPIN = pin
+        pinFocused = false
         phase = .verifying
-        let expectedChallenge = challenge
         Task {
             do {
-                phase = .verified(try await BusinessAPIClient.verifyConfirmation(
-                    responseURL: responseURL, challenge: expectedChallenge))
+                phase = .verified(try await BusinessAPIClient.verifyBusiness(pin: submittedPIN))
             } catch APIError.http(410, _) {
-                phase = .failed(L("The response expired, was already used, or came from a revoked device."))
+                phase = .failed(L("The PIN is invalid, expired, already used, or came from a revoked device."))
             } catch {
-                phase = .failed(L("The response could not be checked. Make sure you are online and try again."))
+                phase = .failed(L("The PIN could not be checked. Make sure you are online and try again."))
             }
         }
     }
 
     private func reset() {
-        challenge = BusinessAPIClient.makeChallenge()
-        phase = .showingChallenge
+        pin = ""
+        phase = .enteringPIN
+        pinFocused = true
     }
 }
 
@@ -158,7 +171,7 @@ private struct BusinessVerificationResult: View {
                     }
                 }
 
-                Text(L("KENNI checked that the responding device is enrolled for this approved business and has not been revoked."))
+                Text(L("KENNI checked that this PIN was issued by an enrolled device for this approved business and that the device has not been revoked."))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)

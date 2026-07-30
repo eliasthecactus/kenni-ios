@@ -23,8 +23,8 @@ struct BusinessDeviceStatus: Codable {
     let business: BusinessProfile
 }
 
-struct IssuedBusinessConfirmation: Codable {
-    let responseURL: String
+struct IssuedBusinessPIN: Codable {
+    let pin: String
     let expiresAt: Int
 }
 
@@ -49,27 +49,6 @@ struct BusinessEnrollmentLink: Equatable, Identifiable {
     }
 }
 
-struct BusinessChallengeLink {
-    let challenge: String
-
-    init?(text: String) {
-        guard let url = URL(string: text),
-              url.scheme == "kenni", url.host == "business-challenge",
-              let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-              let challenge = components.queryItems?.first(
-                where: { $0.name == "challenge" })?.value,
-              Data(base64URLEncoded: challenge)?.count == 32 else { return nil }
-        self.challenge = challenge
-    }
-
-    init(challenge: String) {
-        self.challenge = challenge
-    }
-
-    var urlString: String {
-        "kenni://business-challenge?challenge=\(challenge)"
-    }
-}
 
 struct BusinessAPIClient {
     let deviceID: UUID
@@ -82,11 +61,7 @@ struct BusinessAPIClient {
     }
 
     private struct APNSBody: Codable { let apnsToken: String }
-    private struct ChallengeBody: Codable { let challenge: String }
-    private struct VerifyBody: Codable {
-        let responseURL: String
-        let challenge: String
-    }
+    private struct PINBody: Codable { let pin: String }
 
     static func claim(token: String, signingKey: Curve25519.Signing.PrivateKey) async throws -> ClaimedBusinessDevice {
         let publicKey = signingKey.publicKey.rawRepresentation.base64URLEncodedString()
@@ -109,25 +84,17 @@ struct BusinessAPIClient {
             method: "PUT", path: "/v1/business-devices/apns-token", body: body)
     }
 
-    func issueConfirmation(challenge: String) async throws -> IssuedBusinessConfirmation {
-        let body = try JSONEncoder().encode(ChallengeBody(challenge: challenge))
-        return try Self.decode(try await signedRequest(
-            method: "POST", path: "/v1/business-devices/confirmations", body: body))
+    func issueVerificationPIN() async throws -> IssuedBusinessPIN {
+        try Self.decode(try await signedRequest(
+            method: "POST", path: "/v1/business-devices/verification-pins"))
     }
 
-    static func verifyConfirmation(responseURL: String,
-                                   challenge: String) async throws -> BusinessProfile {
-        let body = try JSONEncoder().encode(VerifyBody(
-            responseURL: responseURL, challenge: challenge))
+    static func verifyBusiness(pin: String) async throws -> BusinessProfile {
+        let body = try JSONEncoder().encode(PINBody(pin: pin))
         return try decode(try await unsignedRequest(
-            method: "POST", path: "/v1/business-confirmations/verify", body: body))
+            method: "POST", path: "/v1/business-verifications/verify", body: body))
     }
 
-    static func makeChallenge() -> String {
-        SymmetricKey(size: .bits256).withUnsafeBytes {
-            Data($0).base64URLEncodedString()
-        }
-    }
 
     private func signedRequest(method: String, path: String,
                                body: Data = Data()) async throws -> Data {

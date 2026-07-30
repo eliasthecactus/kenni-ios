@@ -56,18 +56,18 @@ struct BusinessHomeView: View {
 
                 GradientBorderCard {
                     VStack(spacing: 14) {
-                        Label(L("Ready to confirm your business"),
+                        Label(L("Ready to verify your business"),
                               systemImage: "person.text.rectangle.fill")
                             .font(.headline)
-                        Text(L("Scan a customer's fresh KENNI challenge. The API checks that this device is still active before issuing a one-time response."))
+                        Text(L("Create a one-time PIN and give it to the customer. KENNI checks that this device is still active before issuing the PIN."))
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                         Button {
                             showConfirmation = true
                         } label: {
-                            Label(L("Confirm for a customer"),
-                                  systemImage: "qrcode.viewfinder")
+                            Label(L("Create verification PIN"),
+                                  systemImage: "number.square.fill")
                         }
                         .buttonStyle(KenniPrimaryButtonStyle())
                     }
@@ -127,81 +127,125 @@ private struct BusinessConfirmCustomerView: View {
     @Environment(BusinessCredentialStore.self) private var businessStore
     @Environment(AppLockManager.self) private var lock
     @Environment(\.dismiss) private var dismiss
-    @State private var response: IssuedBusinessConfirmation?
+    @State private var issuedPIN: IssuedBusinessPIN?
     @State private var errorMessage: String?
     @State private var isWorking = false
 
     var body: some View {
         NavigationStack {
-            Group {
-                if let response {
-                    VStack(spacing: 20) {
-                        Text(L("Let the customer scan this one-time response."))
-                            .font(.headline)
-                            .multilineTextAlignment(.center)
-                        QRCodeView(content: response.responseURL)
-                            .frame(maxWidth: 280)
-                        Label(L("Expires in 90 seconds"), systemImage: "timer")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                        Button(L("Done")) { dismiss() }
-                            .buttonStyle(KenniPrimaryButtonStyle())
+            VStack(spacing: 24) {
+                if let issuedPIN {
+                    OnboardingHeader(
+                        systemImage: "number.square.fill",
+                        title: L("Give this PIN to the customer"),
+                        subtitle: L("The customer enters it in KENNI to see your verified business profile."),
+                        gradient: KenniGradient.cool)
+
+                    TimelineView(.periodic(from: .now, by: 1)) { context in
+                        let seconds = max(
+                            0, issuedPIN.expiresAt - Int(context.date.timeIntervalSince1970))
+                        VStack(spacing: 14) {
+                            Text(formatted(issuedPIN.pin))
+                                .font(.system(size: 54, weight: .bold, design: .monospaced))
+                                .tracking(5)
+                                .minimumScaleFactor(0.7)
+                                .lineLimit(1)
+                                .textSelection(.enabled)
+                            if seconds > 0 {
+                                Label(L("%@ seconds remaining", String(seconds)),
+                                      systemImage: "timer")
+                                    .foregroundStyle(.secondary)
+                            } else {
+                                Label(L("This PIN has expired."),
+                                      systemImage: "exclamationmark.circle.fill")
+                                    .foregroundStyle(Color.kenniCoral)
+                            }
+                        }
                     }
-                    .padding(24)
+
+                    Text(L("The PIN works once. Creating a new PIN immediately invalidates this one."))
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+
+                    Button {
+                        Task { await issuePIN() }
+                    } label: {
+                        if isWorking { ProgressView().tint(.kenniInk) }
+                        else { Text(L("Create new PIN")) }
+                    }
+                    .buttonStyle(KenniSecondaryButtonStyle())
+                    .disabled(isWorking)
+                } else if isWorking {
+                    Spacer()
+                    ProgressView()
+                    Text(L("Creating verification PIN…"))
+                        .foregroundStyle(.secondary)
+                    Spacer()
                 } else {
-                    VStack(spacing: 12) {
-                        ScannerView(prompt: L("Scan the customer's business challenge.")) {
-                            respond(to: $0)
-                        }
-                        if isWorking { ProgressView() }
-                        if let errorMessage {
-                            Text(errorMessage)
-                                .font(.footnote)
-                                .foregroundStyle(Color.kenniCoral)
-                                .multilineTextAlignment(.center)
-                        }
+                    Spacer()
+                    Image(systemName: "number.square.fill")
+                        .font(.system(size: 72, weight: .semibold))
+                        .foregroundStyle(KenniGradient.cool)
+                    Text(L("Could not create a verification PIN"))
+                        .font(.title2.bold())
+                        .multilineTextAlignment(.center)
+                    if let errorMessage {
+                        Text(errorMessage)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
                     }
-                    .padding(.bottom, 20)
+                    Spacer()
+                    Button(L("Try again")) { Task { await issuePIN() } }
+                        .buttonStyle(KenniPrimaryButtonStyle())
                 }
             }
+            .padding(24)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.kenniBackground)
-            .navigationTitle(L("Confirm business"))
+            .navigationTitle(L("Verify business"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(L("Cancel")) { dismiss() }
+                    Button(L("Done")) { dismiss() }
                 }
             }
         }
         .tint(.kenniBlue)
+        .task {
+            if issuedPIN == nil, errorMessage == nil {
+                await issuePIN()
+            }
+        }
     }
 
-    private func respond(to value: String) {
-        guard !isWorking, let challenge = BusinessChallengeLink(text: value) else {
-            errorMessage = L("That is not a valid KENNI business challenge.")
-            return
-        }
+    @MainActor
+    private func issuePIN() async {
+        guard !isWorking else { return }
         isWorking = true
         errorMessage = nil
-        Task {
-            defer { isWorking = false }
-            guard await lock.unlockWithDeviceAuth(
-                reason: L("Confirm that you represent the business")) else {
-                errorMessage = L("Confirmation cancelled.")
-                return
-            }
-            guard let client = businessStore.installation?.client else {
-                errorMessage = L("This business device is no longer active.")
-                return
-            }
-            do {
-                response = try await client.issueConfirmation(challenge: challenge.challenge)
-            } catch APIError.http(410, _) {
-                await businessStore.refreshStatus()
-                errorMessage = L("This business device has been revoked.")
-            } catch {
-                errorMessage = L("Could not create a confirmation. Check your connection.")
-            }
+        defer { isWorking = false }
+        guard await lock.unlockWithDeviceAuth(
+            reason: L("Confirm that you represent the business")) else {
+            errorMessage = L("Confirmation cancelled.")
+            return
         }
+        guard let client = businessStore.installation?.client else {
+            errorMessage = L("This business device is no longer active.")
+            return
+        }
+        do {
+            issuedPIN = try await client.issueVerificationPIN()
+        } catch APIError.http(410, _) {
+            await businessStore.refreshStatus()
+            errorMessage = L("This business device has been revoked.")
+        } catch {
+            errorMessage = L("Could not create a verification PIN. Check your connection.")
+        }
+    }
+
+    private func formatted(_ pin: String) -> String {
+        guard pin.count == 6 else { return pin }
+        return "\(pin.prefix(3)) \(pin.suffix(3))"
     }
 }

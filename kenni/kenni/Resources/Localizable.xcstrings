@@ -4023,23 +4023,6 @@
         }
       }
     },
-    "Checking the business device…" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unternehmensgerät wird geprüft…"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comprobando el dispositivo empresarial…"
-          }
-        }
-      }
-    },
     "Confirm an approved representative with a live QR check." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4053,40 +4036,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Confirma a un representante autorizado con una comprobación QR en directo."
-          }
-        }
-      }
-    },
-    "Confirm business" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unternehmen bestätigen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confirmar empresa"
-          }
-        }
-      }
-    },
-    "Confirm for a customer" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Für einen Kunden bestätigen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confirmar para un cliente"
           }
         }
       }
@@ -4121,23 +4070,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuar con la configuración de empresa"
-          }
-        }
-      }
-    },
-    "Could not create a confirmation. Check your connection." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestätigung konnte nicht erstellt werden. Prüfe deine Verbindung."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se ha podido crear una confirmación. Comprueba tu conexión."
           }
         }
       }
@@ -4193,40 +4125,6 @@
         }
       }
     },
-    "Expires in 90 seconds" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Läuft in 90 Sekunden ab"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Caduca en 90 segundos"
-          }
-        }
-      }
-    },
-    "Fresh one-time challenge" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neue einmalige Challenge"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nuevo reto de un solo uso"
-          }
-        }
-      }
-    },
     "It can no longer create confirmations for %@." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4240,57 +4138,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ya no puede crear confirmaciones para %@."
-          }
-        }
-      }
-    },
-    "KENNI checked that the responding device is enrolled for this approved business and has not been revoked." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "KENNI hat geprüft, dass das antwortende Gerät für dieses zugelassene Unternehmen registriert und nicht widerrufen ist."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "KENNI ha comprobado que el dispositivo que responde está registrado para esta empresa autorizada y no ha sido revocado."
-          }
-        }
-      }
-    },
-    "Let the customer scan this one-time response." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lass den Kunden diese einmalige Antwort scannen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deja que el cliente escanee esta respuesta de un solo uso."
-          }
-        }
-      }
-    },
-    "Let the representative scan this fresh challenge with their enrolled KENNI business device." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lass die Vertretung diese neue Challenge mit ihrem registrierten KENNI-Unternehmensgerät scannen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deja que el representante escanee este nuevo reto con su dispositivo empresarial KENNI registrado."
           }
         }
       }
@@ -4363,23 +4210,6 @@
         }
       }
     },
-    "Ready to confirm your business" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bereit, dein Unternehmen zu bestätigen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todo listo para confirmar tu empresa"
-          }
-        }
-      }
-    },
     "Revoked %@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4397,40 +4227,6 @@
         }
       }
     },
-    "Scan a customer's fresh KENNI challenge. The API checks that this device is still active before issuing a one-time response." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scanne die neue KENNI-Challenge eines Kunden. Die API prüft, ob dieses Gerät noch aktiv ist, bevor sie eine einmalige Antwort ausstellt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escanea un nuevo reto KENNI de un cliente. La API comprueba que este dispositivo sigue activo antes de emitir una respuesta de un solo uso."
-          }
-        }
-      }
-    },
-    "Scan business response" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unternehmensantwort scannen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escanear respuesta de la empresa"
-          }
-        }
-      }
-    },
     "Scan enrollment QR" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4444,23 +4240,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escanear QR de registro"
-          }
-        }
-      }
-    },
-    "Scan the customer's business challenge." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scanne die Unternehmens-Challenge des Kunden."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escanea el reto empresarial del cliente."
           }
         }
       }
@@ -4499,23 +4278,6 @@
         }
       }
     },
-    "Scan the one-time response on the business device." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scanne die einmalige Antwort auf dem Unternehmensgerät."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escanea la respuesta de un solo uso en el dispositivo empresarial."
-          }
-        }
-      }
-    },
     "Set up a business device" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4546,23 +4308,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "¿Configurar este dispositivo para una empresa?"
-          }
-        }
-      }
-    },
-    "That is not a valid KENNI business challenge." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das ist keine gültige KENNI-Unternehmens-Challenge."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No es un reto empresarial de KENNI válido."
           }
         }
       }
@@ -4614,57 +4359,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se eliminará la credencial del dispositivo. Para volver a registrarlo, necesitarás una nueva invitación de un administrador."
-          }
-        }
-      }
-    },
-    "The response could not be checked. Make sure you are online and try again." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Antwort konnte nicht geprüft werden. Stelle sicher, dass du online bist, und versuche es erneut."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se ha podido comprobar la respuesta. Asegúrate de tener conexión e inténtalo de nuevo."
-          }
-        }
-      }
-    },
-    "The response expired, was already used, or came from a revoked device." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Antwort ist abgelaufen, wurde bereits verwendet oder stammt von einem widerrufenen Gerät."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La respuesta ha caducado, ya se ha utilizado o procede de un dispositivo revocado."
-          }
-        }
-      }
-    },
-    "The response works only for this screen and expires after 90 seconds." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Antwort gilt nur für diesen Bildschirm und läuft nach 90 Sekunden ab."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La respuesta solo funciona en esta pantalla y caduca a los 90 segundos."
           }
         }
       }
@@ -4852,6 +4546,363 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Necesitarás el QR o enlace de un solo uso creado por un administrador de KENNI."
+          }
+        }
+      }
+    },
+    "Ready to verify your business" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bereit, dein Unternehmen zu verifizieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo para verificar tu empresa"
+          }
+        }
+      }
+    },
+    "Create a one-time PIN and give it to the customer. KENNI checks that this device is still active before issuing the PIN." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstelle eine einmalige PIN und gib sie dem Kunden. KENNI prüft vor der Ausgabe, ob dieses Gerät noch aktiv ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea un PIN de un solo uso y dáselo al cliente. KENNI comprueba que este dispositivo siga activo antes de emitirlo."
+          }
+        }
+      }
+    },
+    "Create verification PIN" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifizierungs-PIN erstellen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear PIN de verificación"
+          }
+        }
+      }
+    },
+    "Give this PIN to the customer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gib diese PIN dem Kunden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dale este PIN al cliente"
+          }
+        }
+      }
+    },
+    "The customer enters it in KENNI to see your verified business profile." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Kunde gibt sie in KENNI ein, um dein verifiziertes Unternehmensprofil zu sehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El cliente lo introduce en KENNI para ver el perfil verificado de tu empresa."
+          }
+        }
+      }
+    },
+    "%@ seconds remaining" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch %@ Sekunden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quedan %@ segundos"
+          }
+        }
+      }
+    },
+    "This PIN has expired." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese PIN ist abgelaufen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este PIN ha caducado."
+          }
+        }
+      }
+    },
+    "The PIN works once. Creating a new PIN immediately invalidates this one." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die PIN ist einmal gültig. Wenn du eine neue PIN erstellst, wird diese sofort ungültig."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El PIN solo funciona una vez. Al crear uno nuevo, este se invalida de inmediato."
+          }
+        }
+      }
+    },
+    "Create new PIN" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neue PIN erstellen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear nuevo PIN"
+          }
+        }
+      }
+    },
+    "Creating verification PIN…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifizierungs-PIN wird erstellt …"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creando PIN de verificación…"
+          }
+        }
+      }
+    },
+    "Could not create a verification PIN" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifizierungs-PIN konnte nicht erstellt werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo crear el PIN de verificación"
+          }
+        }
+      }
+    },
+    "Verify business" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmen verifizieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificar empresa"
+          }
+        }
+      }
+    },
+    "Could not create a verification PIN. Check your connection." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Verifizierungs-PIN konnte nicht erstellt werden. Überprüfe deine Verbindung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo crear el PIN de verificación. Comprueba tu conexión."
+          }
+        }
+      }
+    },
+    "Checking the business PIN…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmens-PIN wird geprüft …"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprobando el PIN de la empresa…"
+          }
+        }
+      }
+    },
+    "Ask the representative for their current one-time KENNI PIN, then enter it below." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitte die Unternehmensvertretung um ihre aktuelle einmalige KENNI-PIN und gib sie unten ein."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pide al representante el PIN actual de KENNI de un solo uso e introdúcelo abajo."
+          }
+        }
+      }
+    },
+    "Business PIN" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unternehmens-PIN"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PIN de la empresa"
+          }
+        }
+      }
+    },
+    "6-digit PIN" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6-stellige PIN"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PIN de 6 dígitos"
+          }
+        }
+      }
+    },
+    "PINs expire after 90 seconds and work only once. KENNI checks the issuing device's revocation status online." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PINs laufen nach 90 Sekunden ab und sind einmal gültig. KENNI prüft den Widerrufsstatus des ausstellenden Geräts online."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los PIN caducan después de 90 segundos y solo funcionan una vez. KENNI comprueba en línea el estado de revocación del dispositivo emisor."
+          }
+        }
+      }
+    },
+    "The PIN is invalid, expired, already used, or came from a revoked device." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die PIN ist ungültig, abgelaufen, bereits verwendet oder stammt von einem widerrufenen Gerät."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El PIN no es válido, ha caducado, ya se ha utilizado o procede de un dispositivo revocado."
+          }
+        }
+      }
+    },
+    "The PIN could not be checked. Make sure you are online and try again." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die PIN konnte nicht geprüft werden. Stelle sicher, dass du online bist, und versuche es erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo comprobar el PIN. Asegúrate de tener conexión y vuelve a intentarlo."
+          }
+        }
+      }
+    },
+    "KENNI checked that this PIN was issued by an enrolled device for this approved business and that the device has not been revoked." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KENNI hat geprüft, dass diese PIN von einem registrierten Gerät dieses zugelassenen Unternehmens ausgestellt wurde und das Gerät nicht widerrufen ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KENNI ha comprobado que este PIN fue emitido por un dispositivo registrado para esta empresa aprobada y que el dispositivo no ha sido revocado."
           }
         }
       }
