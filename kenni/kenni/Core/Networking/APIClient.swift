@@ -36,9 +36,8 @@ struct APIClient {
 
     // MARK: Endpoints
     //
-    // The app talks to the API for exactly two things: registering this device's
-    // APNs token, and relaying live-check requests/answers (the payloads are
-    // opaque signed envelopes). Contact exchange is fully offline (kenni:// links).
+    // Signed requests register this device and relay live-check envelopes.
+
 
     func registerDevice(apnsToken: String) async throws {
         _ = try await send("POST", "/v1/devices", body: ["apnsToken": apnsToken])

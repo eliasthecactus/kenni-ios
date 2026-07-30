@@ -5,8 +5,8 @@ import SwiftData
 /// Screenshot/e2e support, DEBUG builds only.
 ///
 ///   --demo               seed a deterministic identity, profile and contacts
-///   --screen <name>      render one screen directly: home | contact | offline |
-///                        mycode | livecheck | incoming
+///   --screen <name>      render one screen directly: home | contact | business |
+///                        offline | mycode | livecheck | incoming
 ///   --request <id>       request id for the incoming screen
 ///
 /// Everything is deterministic: the own identity and all demo contacts derive from
@@ -115,6 +115,8 @@ struct DemoScreenHost: View {
             }
         case "mycode":
             ExchangeView()
+        case "business":
+            BusinessIdentificationView()
         case "settings":
             SettingsView()
         case "reset":

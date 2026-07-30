@@ -31,11 +31,16 @@ final class AppRouter {
     /// Set when a benavo.ch/x?b=<bundle> link opens the app. The identity card
     /// rides inside the link, so opening it needs no server.
     var incomingBundleParam: String?
+    var businessEnrollmentLink: BusinessEnrollmentLink?
+    var businessRevoked = false
 }
 
 final class PushManager: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var router: AppRouter?
     var identityProvider: (() -> KenniIdentity?)? {
+        didSet { registerPendingTokenIfPossible() }
+    }
+    var businessProvider: (() -> BusinessInstallation?)? {
         didSet { registerPendingTokenIfPossible() }
     }
 
@@ -59,7 +64,19 @@ final class PushManager: NSObject, UIApplicationDelegate, UNUserNotificationCent
     }
 
     func registerPendingTokenIfPossible() {
-        guard let token = pendingToken, let identity = identityProvider?() else { return }
+        guard let token = pendingToken else { return }
+        if let client = businessProvider?()?.client {
+            Task {
+                do {
+                    try await client.registerAPNSToken(token)
+                    PushDebug.setStatus("Business device registered ✓")
+                } catch {
+                    PushDebug.setStatus("Failed: \(error.localizedDescription)")
+                }
+            }
+            return
+        }
+        guard let identity = identityProvider?() else { return }
         Task {
             do {
                 try await APIClient(identity: identity).registerDevice(apnsToken: token)
@@ -94,11 +111,14 @@ final class PushManager: NSObject, UIApplicationDelegate, UNUserNotificationCent
     }
 
     private func route(userInfo: [AnyHashable: Any]) {
-        guard let requestID = userInfo["requestID"] as? String else { return }
         let kind = userInfo["kind"] as? String
-        if kind == "request" {
-            router?.incomingRequestID = requestID
+        if kind == "businessRevoked" {
+            router?.businessRevoked = true
+            return
         }
-        // kind == "response": the waiting VerifyCallView is already polling.
+        guard kind == "request", let requestID = userInfo["requestID"] as? String else {
+            return
+        }
+        router?.incomingRequestID = requestID
     }
 }
