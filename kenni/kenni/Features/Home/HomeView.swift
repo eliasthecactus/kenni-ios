@@ -8,6 +8,7 @@ struct HomeView: View {
     @Query(sort: \Contact.name) private var contacts: [Contact]
     @State private var showSettings = false
     @State private var showExchange = false
+    @State private var showBusinessIdentification = false
     @State private var search = ""
 
     private var profile: UserProfile? { profiles.first }
@@ -22,6 +23,7 @@ struct HomeView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     identityCard
+                    businessIdentificationButton
                     contactsSection
                 }
                 .padding(20)
@@ -47,6 +49,9 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
             .sheet(isPresented: $showExchange) { ExchangeView() }
+            .sheet(isPresented: $showBusinessIdentification) {
+                BusinessIdentificationView()
+            }
             .navigationDestination(for: Contact.self) { contact in
                 ContactDetailView(contact: contact)
             }
@@ -86,6 +91,39 @@ struct HomeView: View {
                 }
             }
         }
+    }
+
+    private var businessIdentificationButton: some View {
+        Button {
+            showBusinessIdentification = true
+        } label: {
+            HStack(spacing: 14) {
+                Image(systemName: "checkmark.seal.fill")
+                    .font(.system(size: 28))
+                    .foregroundStyle(KenniGradient.cool)
+                    .frame(width: 44, height: 44)
+                    .background(Color.kenniBackground, in: RoundedRectangle(cornerRadius: 13))
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(L("Identify a business"))
+                        .font(.headline)
+                        .foregroundStyle(.primary)
+                    Text(L("View an approved business profile with its PIN."))
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.leading)
+                }
+                Spacer(minLength: 8)
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(16)
+            .background(Color.kenniCard, in: RoundedRectangle(cornerRadius: 18))
+            .overlay(
+                RoundedRectangle(cornerRadius: 18)
+                    .strokeBorder(KenniGradient.cool.opacity(0.35), lineWidth: 1))
+        }
+        .buttonStyle(.plain)
     }
 
     @ViewBuilder

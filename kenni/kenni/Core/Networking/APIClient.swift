@@ -34,11 +34,33 @@ struct APIClient {
         let responsePayload: String?
     }
 
+    struct Business: Codable, Equatable, Identifiable {
+        let id: UUID
+        let name: String
+        let logoURL: URL?
+        let address: String
+        let websiteURL: URL?
+    }
+
     // MARK: Endpoints
     //
-    // The app talks to the API for exactly two things: registering this device's
-    // APNs token, and relaying live-check requests/answers (the payloads are
-    // opaque signed envelopes). Contact exchange is fully offline (kenni:// links).
+    // Signed requests register this device and relay live-check envelopes. The
+    // approved-business lookup is intentionally unsigned so looking up a PIN
+    // never reveals or links the user's identity key.
+
+    static func identifyBusiness(pin: String) async throws -> Business {
+        let body = try JSONEncoder().encode(["pin": pin])
+        var request = URLRequest(url: baseURL.appending(path: "/v1/businesses/identify"))
+        request.httpMethod = "POST"
+        request.httpBody = body
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let (data, response) = try await URLSession.shared.data(for: request)
+        try check(response, data: data)
+        guard let business = try? JSONDecoder().decode(Business.self, from: data) else {
+            throw APIError.decoding
+        }
+        return business
+    }
 
     func registerDevice(apnsToken: String) async throws {
         _ = try await send("POST", "/v1/devices", body: ["apnsToken": apnsToken])
