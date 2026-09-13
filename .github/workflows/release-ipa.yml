@@ -19,7 +19,6 @@ jobs:
       P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
       BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
       KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-      KEYCHAIN_PATH: ${{ runner.temp }}/kenni-signing.keychain-db
 
     steps:
       - name: Checkout
@@ -42,6 +41,7 @@ jobs:
           CERTIFICATE_PATH="$RUNNER_TEMP/kenni_signing.p12"
           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o "$CERTIFICATE_PATH"
 
+          KEYCHAIN_PATH="$RUNNER_TEMP/kenni-signing.keychain-db"
           security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
           security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
@@ -98,5 +98,6 @@ jobs:
       - name: Clean up keychain
         if: ${{ always() }}
         run: |
+          KEYCHAIN_PATH="$RUNNER_TEMP/kenni-signing.keychain-db"
           security delete-keychain "$KEYCHAIN_PATH" || true
           rm -f "$HOME/Library/MobileDevice/Provisioning Profiles/kenni.mobileprovision"
