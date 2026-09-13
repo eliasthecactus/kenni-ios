@@ -26,8 +26,7 @@ jobs:
 
       - name: Select Xcode
         run: |
-          xcode-select -s /Applications/Xcode.app
-          xcodebuild -version
+          sudo xcode-select -s /Applications/Xcode.app
 
       - name: Check signing secrets
         run: |
