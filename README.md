@@ -33,7 +33,9 @@ The workflow (`.github/workflows/release-ipa.yml`) runs on a `macos-26` runner,
 
 - builds kenni in `Release` for `generic/platform=iOS`,
 - applies the tag version (`v1.0.2` → `1.0.2`) to the package,
-- signs it as an ad-hoc distribution (`release-testing`), and
+- signs it with the team's Apple Development identity (development
+  distribution, `debugging`) — installable on devices registered to the
+  team, and
 - creates a release named `kenni 1.0.2` with `kenni-1.0.2.ipa` attached.
   Versions containing a `-` (e.g. `v1.0.2-rc1`) are marked as pre-releases.
 
